@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Save&Spend Wireframes</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #2c2c2c; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px; 
+            box-sizing: border-box;
+        }
+        .device { 
+            width: 375px; 
+            height: 812px; 
+            background: #ffffff; 
+            border-radius: 40px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5); 
+            overflow: hidden; 
+            position: relative; 
+            border: 12px solid #111; 
+        }
+        .screen { 
+            height: calc(100% - 60px); 
+            display: none; 
+            padding: 24px; 
+            box-sizing: border-box; 
+            overflow-y: auto; 
+            background-color: #f9f9fc;
+        }
+        .screen.active { 
+            display: block; 
+        }
+        .header { 
+            text-align: center; 
+            margin-bottom: 24px; 
+        }
+        .header h2 {
+            margin: 0 0 8px 0;
+            color: #1a1a1a;
+            font-size: 24px;
+        }
+        .header p {
+            margin: 0;
+            color: #666;
+            font-size: 14px;
+        }
+        .card { 
+            background: #fff; 
+            padding: 18px; 
+            border-radius: 16px; 
+            margin-bottom: 16px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+        }
+        .card h3 {
+            margin: 0 0 12px 0;
+            font-size: 16px;
+            color: #333;
+        }
+        .card p {
+            margin: 0 0 8px 0;
+            font-size: 14px;
+            color: #555;
+        }
+        .card p:last-child {
+            margin-bottom: 0;
+        }
+        .btn { 
+            display: block; 
+            width: 100%; 
+            padding: 14px; 
+            background: #000; 
+            color: #fff; 
+            text-align: center; 
+            border-radius: 12px; 
+            text-decoration: none; 
+            margin-top: 16px; 
+            cursor: pointer; 
+            font-weight: 600;
+            font-size: 15px;
+            transition: transform 0.1s;
+        }
+        .btn:active {
+            transform: scale(0.98);
+        }
+        .nav { 
+            position: absolute; 
+            bottom: 0; 
+            width: 100%; 
+            height: 60px;
+            display: flex; 
+            justify-content: space-around; 
+            align-items: center;
+            background: #fff; 
+            border-top: 1px solid #eaeaea; 
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.03);
+        }
+        .nav div { 
+            cursor: pointer; 
+            font-size: 12px; 
+            color: #888;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+        .nav div.active-nav {
+            color: #000;
+            font-weight: 600;
+        }
+        .nav div .icon {
+            width: 20px;
+            height: 20px;
+            background-color: currentColor;
+            border-radius: 4px; /* placeholder for icon */
+        }
+        .large-number { 
+            font-size: 38px; 
+            font-weight: 800; 
+            text-align: center; 
+            margin: 12px 0; 
+            color: #1a1a1a;
+            letter-spacing: -1px;
+        }
+        .tabs { 
+            display: flex; 
+            margin-bottom: 24px; 
+            background: #eee;
+            border-radius: 8px;
+            padding: 4px;
+        }
+        .tab { 
+            flex: 1; 
+            text-align: center; 
+            padding: 8px 12px; 
+            border-radius: 6px;
+            cursor: pointer; 
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+        }
+        .tab.active { 
+            background: #fff;
+            color: #000;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .progress-bar-bg {
+            background: #eee;
+            height: 8px;
+            border-radius: 4px;
+            width: 100%;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            background: #000;
+            height: 100%;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="device">
+        <!-- Onboarding Screen -->
+        <div id="screen-onboarding" class="screen active">
+            <div class="header" style="margin-top: 60px;">
+                <h2 style="font-size: 32px; margin-bottom: 16px;">Save&Spend</h2>
+                <p style="font-size: 16px;">Complete clarity for your solo financial journey.</p>
+            </div>
+            <div class="card" style="margin-top: 40px;">
+                <h3>Step 1: Connect Bank</h3>
+                <p style="color:#888;">Securely link your accounts via Plaid to power your dashboard.</p>
+                <div class="btn" onclick="showScreen('screen-dashboard', 'nav-home')">Connect Accounts</div>
+            </div>
+            <div class="card">
+                <h3>Step 2: Sync Calendar (Optional)</h3>
+                <p style="color:#888;">Plan around your real life events so you're never surprised.</p>
+                <div class="btn" style="background: transparent; color: #666; border: 1px solid #ccc; margin-top: 12px;" onclick="showScreen('screen-dashboard', 'nav-home')">Skip for now</div>
+            </div>
+        </div>
+
+        <!-- Dashboard Screen -->
+        <div id="screen-dashboard" class="screen">
+            <div class="header">
+                <h2>Dashboard</h2>
+            </div>
+            <div class="tabs">
+                <div class="tab active">Safe-to-Spend</div>
+                <div class="tab">Planning</div>
+            </div>
+            <div class="card" style="background: #eaffea; border-color: #b2ebb4;">
+                <p style="text-align: center; color: #2e7d32; font-weight: 600;">Safe to Spend Today</p>
+                <div class="large-number" style="color: #1b5e20;">$124.50</div>
+                <p style="text-align: center; font-size: 12px; color: #4caf50;">After upcoming bills and goals</p>
+            </div>
+            <div class="card">
+                <div style="display:flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <h3 style="margin:0;">Envelopes</h3>
+                    <span style="font-size:12px; color:#007bff; cursor:pointer;">+ Add</span>
+                </div>
+                
+                <div style="margin-bottom: 16px;">
+                    <div style="display:flex; justify-content: space-between; font-size: 14px;">
+                        <span>Groceries</span>
+                        <strong>$50 left</strong>
+                    </div>
+                    <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 75%; background: #000;"></div></div>
+                    <div style="font-size: 11px; color:#888; text-align:right; margin-top:4px;">$150 / $200 spent</div>
+                </div>
+
+                <div style="margin-bottom: 16px;">
+                    <div style="display:flex; justify-content: space-between; font-size: 14px;">
+                        <span>Dining Out</span>
+                        <strong>$20 left</strong>
+                    </div>
+                    <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 80%; background: #ff9800;"></div></div>
+                    <div style="font-size: 11px; color:#888; text-align:right; margin-top:4px;">$80 / $100 spent</div>
+                </div>
+
+                <div>
+                    <div style="display:flex; justify-content: space-between; font-size: 14px;">
+                        <span>Transport</span>
+                        <strong style="color: #d32f2f;">-$5 over</strong>
+                    </div>
+                    <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 100%; background: #d32f2f;"></div></div>
+                    <div style="font-size: 11px; color:#d32f2f; text-align:right; margin-top:4px;">$55 / $50 spent</div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>Clarity Score</h3>
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="width: 60px; height: 60px; border-radius: 30px; border: 4px solid #4caf50; display:flex; justify-content:center; align-items:center; font-weight:bold; font-size:20px;">85</div>
+                    <div>
+                        <p style="font-weight:600; margin-bottom:2px;">Excellent</p>
+                        <p style="font-size:12px; color:#666;">You're well prepared for the week ahead.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vampire Audit Screen -->
+        <div id="screen-audit" class="screen">
+            <div class="header">
+                <h2>Vampire Audit</h2>
+                <p>Plug your money leaks</p>
+            </div>
+            
+            <div class="card" style="border-left: 4px solid #d32f2f;">
+                <div style="display:flex; justify-content:space-between;">
+                    <h3 style="color: #d32f2f;">Price Increase!</h3>
+                    <span style="font-size:12px; color:#666;">2d ago</span>
+                </div>
+                <div style="display:flex; align-items: center; justify-content: space-between; margin: 12px 0;">
+                    <div style="font-weight:600;">Netflix</div>
+                    <div style="text-align:right;">
+                        <span style="text-decoration: line-through; color:#999; font-size:12px;">$15.99</span>
+                        <span style="color:#d32f2f; font-weight:bold; margin-left:8px;">$17.99</span>
+                    </div>
+                </div>
+                <div class="btn" style="background: #fff; color: #d32f2f; border: 1px solid #d32f2f; padding: 10px;">Review & Cancel</div>
+            </div>
+
+            <div class="card" style="border-left: 4px solid #ff9800;">
+                <div style="display:flex; justify-content:space-between;">
+                    <h3 style="color: #e65100;">Unused Subscription</h3>
+                    <span style="font-size:12px; color:#666;">1w ago</span>
+                </div>
+                <p style="margin-top:8px;"><strong>Planet Fitness ($40/mo)</strong></p>
+                <p style="font-size:13px;">No visits detected at this location in 60 days.</p>
+                <div class="btn" style="background: #fff; color: #000; border: 1px solid #ccc; padding: 10px;">Review & Cancel</div>
+            </div>
+        </div>
+
+        <!-- Simulator Screen -->
+        <div id="screen-simulator" class="screen">
+            <div class="header">
+                <h2>Simulator</h2>
+                <p>Test before you spend</p>
+            </div>
+            <div class="card">
+                <h3>What if I purchase...</h3>
+                <div style="background: #f5f5f5; padding: 12px; border-radius: 8px; margin-bottom: 12px; display:flex; justify-content:space-between;">
+                    <span>MacBook Pro</span>
+                    <strong>$1,200</strong>
+                </div>
+                <div class="btn" style="background: #000; color: #fff;">Simulate Impact</div>
+            </div>
+            
+            <div class="card" style="background: #fff8e1; border-color: #ffe082;">
+                <h3 style="color: #f57f17;">Simulation Results</h3>
+                <p style="margin-bottom: 12px;">If you make this purchase today:</p>
+                <ul style="font-size: 14px; color: #333; padding-left: 20px; line-height: 1.6; margin-bottom:0;">
+                    <li>Your <strong>Safe-to-Spend</strong> drops to <span style="color:#d32f2f;">$15/day</span> for the rest of this month.</li>
+                    <li>Your "Vacation" goal will be delayed by <strong>1 month</strong>.</li>
+                    <li>You will still be able to cover all upcoming bills.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Navigation Bar -->
+        <div class="nav" id="main-nav" style="display:none;">
+            <div id="nav-home" class="active-nav" onclick="showScreen('screen-dashboard', 'nav-home')">
+                <div class="icon" style="background:currentColor;"></div>
+                Home
+            </div>
+            <div id="nav-audit" onclick="showScreen('screen-audit', 'nav-audit')">
+                 <div class="icon" style="background:currentColor;"></div>
+                Audit
+            </div>
+            <div id="nav-simulator" onclick="showScreen('screen-simulator', 'nav-simulator')">
+                 <div class="icon" style="background:currentColor;"></div>
+                Simulate
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showScreen(screenId, navId) {
+            // Hide all screens
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            // Show targeted screen
+            document.getElementById(screenId).classList.add('active');
+            
+            // Show nav bar if navigating away from onboarding
+            if (screenId !== 'screen-onboarding') {
+                document.getElementById('main-nav').style.display = 'flex';
+            }
+
+            // Update nav state
+            if (navId) {
+                document.querySelectorAll('.nav div').forEach(n => n.classList.remove('active-nav'));
+                document.getElementById(navId).classList.add('active-nav');
+            }
+        }
+    </script>
+</body>
+</html>
