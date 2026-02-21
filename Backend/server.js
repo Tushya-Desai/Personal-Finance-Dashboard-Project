@@ -21,6 +21,36 @@ app.get('/api/dashboard', (req, res) => {
     });
 });
 
+// Transactions Data
+app.get('/api/transactions', (req, res) => {
+    db.get("SELECT * FROM users LIMIT 1", (err, user) => {
+        if (err || !user) return res.status(500).json({ error: "User not found" });
+        db.all("SELECT * FROM transactions WHERE user_id = ? ORDER BY date DESC", [user.id], (err, transactions) => {
+            if (err) return res.status(500).json({ error: err.message });
+            res.json({ transactions });
+        });
+    });
+});
+
+// Vampire Audit Data
+app.get('/api/audit', (req, res) => {
+    db.get("SELECT * FROM users LIMIT 1", (err, user) => {
+        if (err || !user) return res.status(500).json({ error: "User not found" });
+        db.all("SELECT * FROM transactions WHERE user_id = ? AND is_recurring = 1 ORDER BY id ASC", [user.id], (err, transactions) => {
+            if (err) return res.status(500).json({ error: err.message });
+
+            // Mocking logic to show Audit issues
+            const auditItems = transactions.map((t, index) => {
+                if (index === 0) {
+                    return { ...t, issue: 'Price Increase!', oldPrice: t.amount - 2.0 };
+                }
+                return { ...t, issue: 'Unused Subscription', oldPrice: null };
+            });
+            res.json({ auditItems });
+        });
+    });
+});
+
 const PORT = 3001;
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);

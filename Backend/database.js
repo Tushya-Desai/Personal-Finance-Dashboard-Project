@@ -4,7 +4,7 @@ const fs = require('fs');
 
 // Ensure Database directory exists
 const dbDir = path.resolve(__dirname, '../Database');
-if (!fs.existsSync(dbDir)){
+if (!fs.existsSync(dbDir)) {
     fs.mkdirSync(dbDir);
 }
 
@@ -44,7 +44,7 @@ const db = new sqlite3.Database(dbPath, (err) => {
                     spent REAL DEFAULT 0
                 )
             `);
-            
+
             // Seed DB
             db.get("SELECT COUNT(*) as count FROM users", (err, row) => {
                 if (row && row.count === 0) {
@@ -52,6 +52,10 @@ const db = new sqlite3.Database(dbPath, (err) => {
                     db.run("INSERT INTO envelopes (user_id, name, budget, spent) VALUES (1, 'Groceries', 200, 150)");
                     db.run("INSERT INTO envelopes (user_id, name, budget, spent) VALUES (1, 'Dining Out', 100, 80)");
                     db.run("INSERT INTO envelopes (user_id, name, budget, spent) VALUES (1, 'Transport', 50, 55)");
+                    db.run("INSERT INTO transactions (user_id, amount, merchant, category, date, is_recurring) VALUES (1, 15.99, 'Netflix', 'Entertainment', datetime('now', '-2 days'), 1)");
+                    db.run("INSERT INTO transactions (user_id, amount, merchant, category, date, is_recurring) VALUES (1, 40.00, 'Planet Fitness', 'Health', datetime('now', '-7 days'), 1)");
+                    db.run("INSERT INTO transactions (user_id, amount, merchant, category, date, is_recurring) VALUES (1, 3.50, 'Starbucks', 'Dining Out', datetime('now', '-1 days'), 0)");
+                    db.run("INSERT INTO transactions (user_id, amount, merchant, category, date, is_recurring) VALUES (1, 120.00, 'Whole Foods', 'Groceries', datetime('now', '-3 days'), 0)");
                     console.log('Database seeded with initial mock data.');
                 }
             });
