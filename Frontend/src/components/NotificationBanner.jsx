@@ -2,10 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { Bell, X } from 'lucide-react';
 
 const NotificationBanner = () => {
-    const [notifications, setNotifications] = useState([
-        { id: 1, type: 'warning', message: 'Transport envelope is -$5.00 over budget.' },
-        { id: 2, type: 'alert', message: 'Netflix price increased by $2.00!' }
-    ]);
+    const [notifications, setNotifications] = useState([]);
+
+    useEffect(() => {
+        fetch('http://localhost:3001/api/notifications')
+            .then(res => res.json())
+            .then(data => {
+                if (data.notifications) {
+                    setNotifications(data.notifications);
+                }
+            })
+            .catch(err => console.error("Error fetching notifications:", err));
+    }, []);
 
     if (notifications.length === 0) return null;
 

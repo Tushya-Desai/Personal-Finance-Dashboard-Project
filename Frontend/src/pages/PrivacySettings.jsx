@@ -1,8 +1,48 @@
 import React from 'react';
 import { ArrowLeft, ShieldCheck, Download, Trash2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const PrivacySettings = () => {
+    const handleExportCSV = async () => {
+        try {
+            const res = await axios.get('http://localhost:3001/api/transactions');
+            const transactions = res.data.transactions;
+            if (!transactions || transactions.length === 0) return alert("No transactions to export");
+
+            let csvContent = "data:text/csv;charset=utf-8,";
+            csvContent += "Date,Merchant,Category,Amount\n";
+
+            transactions.forEach(t => {
+                csvContent += `"${t.date}","${t.merchant}","${t.category}",${t.amount}\n`;
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "transactions_export.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } catch (err) {
+            console.error("Error exporting data", err);
+            alert("Error exporting data.");
+        }
+    };
+
+    const handleDeleteAccount = async () => {
+        if (window.confirm("Are you SURE you want to delete your account and ALL data? This cannot be undone.")) {
+            try {
+                await axios.delete('http://localhost:3001/api/user');
+                alert("Account data deleted.");
+                window.location.href = '/';
+            } catch (err) {
+                console.error("Error deleting account", err);
+                alert("Error deleting account.");
+            }
+        }
+    };
+
     return (
         <div className="privacy-page">
             <header className="header" style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
@@ -25,37 +65,41 @@ const PrivacySettings = () => {
 
             <div className="card" style={{ marginTop: '16px' }}>
                 <h3 style={{ marginBottom: '16px', fontSize: '15px' }}>Data Management</h3>
-                <button style={{
-                    width: '100%',
-                    padding: '14px',
-                    background: '#fff',
-                    border: '1px solid #ccc',
-                    borderRadius: '8px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '8px',
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                    marginBottom: '12px'
-                }}>
+                <button
+                    onClick={handleExportCSV}
+                    style={{
+                        width: '100%',
+                        padding: '14px',
+                        background: '#fff',
+                        border: '1px solid #ccc',
+                        borderRadius: '8px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '8px',
+                        fontWeight: 600,
+                        cursor: 'pointer',
+                        marginBottom: '12px'
+                    }}>
                     <Download size={18} />
                     Export My Data (CSV)
                 </button>
-                <button style={{
-                    width: '100%',
-                    padding: '14px',
-                    background: '#fff',
-                    border: '1px solid #ef9a9a',
-                    color: '#d32f2f',
-                    borderRadius: '8px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '8px',
-                    fontWeight: 600,
-                    cursor: 'pointer'
-                }}>
+                <button
+                    onClick={handleDeleteAccount}
+                    style={{
+                        width: '100%',
+                        padding: '14px',
+                        background: '#fff',
+                        border: '1px solid #ef9a9a',
+                        color: '#d32f2f',
+                        borderRadius: '8px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '8px',
+                        fontWeight: 600,
+                        cursor: 'pointer'
+                    }}>
                     <Trash2 size={18} />
                     Delete Account & Data
                 </button>
