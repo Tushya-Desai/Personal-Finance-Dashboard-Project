@@ -6,6 +6,7 @@ import ClarityScore from '../components/ClarityScore';
 import BottomNav from '../components/BottomNav';
 import NotificationBanner from '../components/NotificationBanner';
 import { Loader2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
     const [data, setData] = useState(null);
